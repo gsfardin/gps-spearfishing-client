@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8001/'
+axios.defaults.baseURL = process.env.VUE_APP_GPS_GATEWAY_URL
 
 Vue.use({
     install(Vue) {

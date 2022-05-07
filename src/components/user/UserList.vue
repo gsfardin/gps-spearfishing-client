@@ -24,26 +24,20 @@ export default {
   name: "dive-list",
 
   data: () => ({
-    title: "Mergulhos - GPS",
+    title: "Usuários - GPS",
     items: [],
     headers: [
-      { text: "Data", value: "dateDive" },
-      { text: "Hora Inicio", value: "initialDiveHour" },
-      { text: "Hora Fim", value: "finalDiveHour" },
-      { text: "Local", value: "fishingPlace.name" },
-      { text: "Cidade", value: "fishingPlace.city.name" },
-      { text: "Tipo de fundo", value: "fishingPlace.floorType" },
-      { text: "Lua", value: "moonPhase" },
-      { text: "Vento", value: "windDirection" },
-      { text: "Maré", value: "seaDirection" },
-      { text: 'Actions', value: 'actions', sortable: false }
+      { text: "Nome", value: "fullName" },
+      { text: "Apelido", value: "nickName" },
+      { text: "Telefone", value: "phoneNumber" },
+      { text: "E-Mail", value: "mail" },
     ],
   }),
   components: {},
   methods: {
     loadForm() {
       this.$http
-        .get("dive")
+        .get("user")
         .then((response) => {
           this.items = [...response.data.content];
         })
