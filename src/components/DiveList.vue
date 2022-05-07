@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: "dive-list",
 
   data: () => ({
     dives: [],
