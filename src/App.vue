@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <h1>GPS - Grupo Pesca Submarina</h1>
-    <router-view></router-view>
+    <component :is="layout"></component>
   </div>
 </template>
 
 <script>
+import AppLayout from './components/layout/AppLayout.vue';
+
 export default {
   name: "App",
 
   data: () => ({
-
+    layout: 'AppLayout'
   }),
+
+  components: {
+    AppLayout,
+  }
 };
 </script>
