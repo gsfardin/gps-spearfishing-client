@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "dive-list",
+  name: "user-list",
 
   data: () => ({
     title: "Usuários - GPS",
@@ -31,6 +31,7 @@ export default {
       { text: "Apelido", value: "nickName" },
       { text: "Telefone", value: "phoneNumber" },
       { text: "E-Mail", value: "mail" },
+      { text: "Actions", value: "actions" },
     ],
   }),
   components: {},
@@ -43,11 +44,13 @@ export default {
         })
         .catch((e) => console.log(e));
     },
-    editItem(dive) {
-      console.log(dive);
+    editItem(user) {
+      if(user.id) {
+        this.$router.push({name: 'UserCreateEdit', params: { id: user.id }})
+      }
     },
-    deleteItem(dive) {
-      console.log(dive);
+    deleteItem(user) {
+      console.log(user);
     }
   },
   created() {
