@@ -21,8 +21,13 @@ export default new Router({
             component: UserList
         },
         {
+            path: '/userCreateEdit',
+            name: "UserCreate",
+            component: UserCreateEdit,
+        },
+        {
             path: '/userCreateEdit/:id',
-            name: "UserCreateEdit",
+            name: "UserEdit",
             component: UserCreateEdit,
         },
         {

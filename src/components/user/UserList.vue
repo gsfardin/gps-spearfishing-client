@@ -46,7 +46,7 @@ export default {
     },
     editItem(user) {
       if(user.id) {
-        this.$router.push({name: 'UserCreateEdit', params: { id: user.id }})
+        this.$router.push({name: 'UserEdit', params: { id: user.id }})
       }
     },
     deleteItem(user) {

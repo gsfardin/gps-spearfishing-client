@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-form lazy-validation v-on:submit.prevent="onSubmit" ref="form">
+    <v-form lazy-validation v-on:submit.prevent="onSubmit" ref="form" v-model="validForm">
       <v-card flat>
         <v-card-title class="headline">{{title}}</v-card-title>
         <v-card-text>
@@ -46,7 +46,8 @@
               <v-text-field
                 v-model.trim="user.phoneNumber"
                 :rules="rules.field"
-                label="E-Mail"
+                label="Telefone"
+                v-mask="['(##) ####-####','(##) #####-####']"
                 rounded
                 filled
               ></v-text-field>
@@ -94,6 +95,11 @@
             </v-col>
           </v-row>
         </v-card-text>
+        <v-card-actions class="pr-4">
+          <v-spacer></v-spacer>
+          <v-btn color="secondary" @click="cancelModel">Cancelar</v-btn>
+          <v-btn type="submit" color="primary" :disabled="!validForm">Salvar</v-btn>
+        </v-card-actions>
       </v-card>
     </v-form>
   </v-container>
@@ -104,6 +110,7 @@ import moment from 'moment'
 
 export default {
   data: () => ({
+    validForm: false,
     title: "Criação de Usuário",
 
     user: {},
@@ -159,6 +166,42 @@ export default {
           console.log(e)
         })
       }
+    },
+    onSubmit() {
+      const self = this
+
+      // Validação do formulário
+      if(!self.$refs.form.validate()) {
+        console.log("Formulário inválido");
+        return
+      }
+
+      if(self.user.id) {
+        // Update persist
+        self.$http.put('user', this.user)
+        .then(response => {
+          console.log("Update realizado com sucesso! \n", response)
+          
+          self.user = response.data
+        })
+        .catch((error) => {
+          console.log("Erro: \n", error)
+        })
+
+      } else {
+        // Save persist
+        self.$http.post('user', this.user)
+        .then(response => {
+          console.log("Update realizado com sucesso! \n", response)
+        })
+        .catch((error) => {
+          console.log("Erro: \n", error)
+        })
+      }
+    },
+    cancelModel() {
+      // Tratamento para voltar a tela de listagem -- Implementar
+      console.log("Tratamento para voltar a tela de listagem -- Implementar");
     },
     confirmDate() {
       this.datePickerDialog = false;
