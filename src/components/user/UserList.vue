@@ -1,7 +1,18 @@
 <template>
   <v-container fluid>
     <v-card flat>
-      <v-card-title class="headline">{{title}}</v-card-title>
+      <v-card-title class="headline">
+        <span class="headline">{{title}}</span>
+        <v-spacer></v-spacer> 
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn outlined icon="icon" @click="addItem" v-bind="attrs" v-on="on">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>  
+          </template>
+          <span>Adicionar</span>    
+        </v-tooltip>
+      </v-card-title>
       <v-data-table
         dense
         :headers="headers"
@@ -37,12 +48,19 @@ export default {
   components: {},
   methods: {
     loadForm() {
-      this.$http
+      const self = this;
+
+      self.$http
         .get("user")
         .then((response) => {
-          this.items = [...response.data.content];
+          self.items = [...response.data.content];
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          console.log(e)
+        });
+    },
+    addItem() {
+      this.$router.push({name: 'UserCreate'})
     },
     editItem(user) {
       if(user.id) {
@@ -50,7 +68,19 @@ export default {
       }
     },
     deleteItem(user) {
-      console.log(user);
+      const self = this;
+
+      if(user.id) {
+        self.$http
+          .delete(`user/${user.id}`)
+          .then((response) => {
+            console.log("Deletado com sucesso!", response);
+            self.loadForm();
+          })
+          .catch((e) => {
+            console.log(e)
+          }); 
+      }
     }
   },
   created() {
