@@ -67,7 +67,7 @@
                     prepend-inner-icon="mdi-calendar"
                     label="Data Nascimento"
                     :rules="rules.field"
-                    v-model="dateText"
+                    v-model="user.bithDate"
                     readonly
                     rounded
                     filled
@@ -125,22 +125,23 @@ export default {
       ],
     },
 
-    dateText: "",
     datePicker: "",
     datePickerDialog: false,
   }),
 
   watch: {
+    // VERIFICAR O NOME DO CAMPO - ESTÁ INCORRETO NO BANCO.
     "user.bithDate" () {
       if (this.user.bithDate){
         this.datePicker = moment(this.user.bithDate, "DD/MM/YYYY").format("YYYY-MM-DD")  
-      }                                
+      } else {
+        this.cancelDate()
+      }
     },
     datePicker() {
       if(this.datePicker) {
-        this.dateText = moment(this.datePicker, "YYYY-MM-DD").format("DD/MM/YYYY"); 
+        this.user.bithDate = moment(this.datePicker, "YYYY-MM-DD").format("DD/MM/YYYY"); 
       }
-      this.user.bithDate = this.dateText
     }
   },
 
@@ -161,11 +162,11 @@ export default {
     },
     confirmDate() {
       this.datePickerDialog = false;
+      this.user.bithDate = moment(this.datePicker, "YYYY-MM-DD").format("DD/MM/YYYY");
     },
     cancelDate() {
       this.datePickerDialog = false;
-      this.datePicker = "";
-      this.dateText = "";
+      this.user.bithDate = "";
     }
   },
 
