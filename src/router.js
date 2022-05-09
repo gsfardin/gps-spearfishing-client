@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/layout/HomeLayout'
-import DiveList from '@/components/dive/DiveList'
 import UserList from '@/components/user/UserList'
 import UserCreateEdit from '@/components/user/UserCreateEdit'
+import DiveList from '@/components/dive/DiveList'
+import DiveCreateEdit from '@/components/dive/DiveCreateEdit'
 
 Vue.use(Router)
 
@@ -34,6 +35,16 @@ export default new Router({
             path: '/diveList',
             name: "DiveList",
             component: DiveList
-        }
+        },
+        {
+            path: '/diveCreateEdit',
+            name: "DiveCreate",
+            component: DiveCreateEdit,
+        },
+        {
+            path: '/diveCreateEdit/:id',
+            name: "DiveEdit",
+            component: DiveCreateEdit,
+        },
     ]
 })

@@ -49,11 +49,28 @@ export default {
         })
         .catch((e) => console.log(e));
     },
+    addItem() {
+      this.$router.push({name: 'DiveCreate'})
+    },
     editItem(dive) {
-      console.log(dive);
+      if(dive.id) {
+        this.$router.push({name: 'DiveEdit', params: { id: dive.id }})
+      }
     },
     deleteItem(dive) {
-      console.log(dive);
+      const self = this;
+
+      if(dive.id) {
+        self.$http
+          .delete(`dive/${dive.id}`)
+          .then((response) => {
+            console.log("Deletado com sucesso!", response);
+            self.loadForm();
+          })
+          .catch((e) => {
+            console.log(e)
+          }); 
+      }
     }
   },
   created() {
