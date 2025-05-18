@@ -1,7 +1,18 @@
 <template>
   <v-container fluid>
     <v-card flat>
-      <v-card-title class="headline">{{title}}</v-card-title>
+      <v-card-title class="headline">
+        <span class="headline">{{title}}</span>
+        <v-spacer></v-spacer> 
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn outlined icon="icon" @click="addItem" v-bind="attrs" v-on="on">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>  
+          </template>
+          <span>Adicionar</span>    
+        </v-tooltip>
+      </v-card-title>
       <v-data-table
         dense
         :headers="headers"

@@ -52,7 +52,10 @@
                 :headers="headersFishers"
                 :items="dive.fishers"
                 item-key="id"
+                id="fisher-table"
                 class="elevation-1"
+                :item-class="row_class_fisher"
+                @click:row="handle_selected_fisher"
               >
                 <template v-slot:top></template>
                 <template v-slot:[`item.fisherProductions`]="{ item }">
@@ -63,6 +66,14 @@
               </v-data-table>
             </v-col>
           </v-row>
+          <v-dialog v-model="editFisherProductionDialog">
+            <v-form>
+              <v-card>
+                <v-card-title> Edição dos dados do pescador </v-card-title>
+                <v-card-text></v-card-text>
+              </v-card>
+            </v-form>
+          </v-dialog>
         </v-card-text>
         <v-card-actions class="pr-4">
           <v-spacer></v-spacer>
@@ -109,6 +120,8 @@ export default {
       { text: "Apelido", value: "user.nickName" },
       { text: "Produção", value: "fisherProductions" },
     ],
+    editFisherProductionDialog: false,
+    selectedFisherProductionObject: {}
   }),
 
   watch: {
@@ -177,6 +190,7 @@ export default {
     cancelModel() {
       // Tratamento para voltar a tela de listagem -- Implementar
       console.log("Tratamento para voltar a tela de listagem -- Implementar");
+      this.$router.go(-1);
     },
     confirmDate() {
       this.datePickerDialog = false;
@@ -185,6 +199,30 @@ export default {
     cancelDate() {
       this.datePickerDialog = false;
       this.dive.dateDive = "";
+    },
+    handle_selected_fisher(value) {
+      // Controla o css do registro selecionado
+      const prevItem = this.dive.fishers.find(fisher => fisher.isSelected);
+      if (prevItem) this.$delete(prevItem, 'isSelected');
+      
+      this.$set(value, "isSelected", true)
+
+      // Abre o componente para edição dos dados de produção do pescador
+      this.editFisherProductionDialog = true
+      this.selectedFisherProductionObject = Object.assign(value)
+      console.log(this.selectedFisherProductionObject.user.fullName);
+    },
+    row_class_fisher(value) {
+      // Retorna o css para o registro selecionado
+      let linha = "fisher";
+
+      if (value.isSelected) {
+        linha += ` fisher-selected`
+      }
+      if (value.user.fullName === "Gabriel Santolin Fardin") {
+        linha += " fisher-markup"
+      }
+      return linha;
     }
   },
 
@@ -195,4 +233,19 @@ export default {
 </script>
 
 <style>
+#fisher-table .fisher:hover {
+  background-color: aqua;
+  box-shadow: inset -1px 2px 15px 7px rgba(0,0,0,0.49) !important;
+}
+#fisher-table .fisher-selected {
+  border-top: solid green;
+  border-bottom: solid green;
+  box-shadow: inset 0px 0px 16px -5px rgba(0,0,0,0.5) !important;
+}
+#fisher-table .fisher-markup {
+  font-weight: bold;
+}
+/* #fisher-table .v-data-table__wrapper table {
+  border-collapse: collapse; 
+} */
 </style>
